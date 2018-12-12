@@ -1,0 +1,19 @@
+{
+  "vendor": "fotoria",
+  "name": "show-time",
+  "version": "0.0.1",
+  "builders": {
+    "pages": "0.x",
+    "react": "2.x"
+  },
+  "mustUpdateAt": "2019-09-05",
+  "categories": [],
+  "registries": [
+    "smartcheckout"
+  ],
+  "settingsSchema": {},
+  "scripts": {},
+  "dependencies": {
+    "vtex.styleguide": "8.x"
+  }
+}
