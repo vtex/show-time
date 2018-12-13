@@ -304,6 +304,7 @@ class App extends Component {
       <Fragment>
         <Helmet>
           <title>Timer Demofriday</title>
+          <link href="https://fonts.googleapis.com/css?family=B612+Mono" rel="stylesheet"></link>
         </Helmet>
         <div className="flex relative overflow-hidden vh-100 w-100" style={{ backgroundColor: SERIOUS_BLACK }}>
           <div className="flex absolute h-100 w-100" style={{
@@ -321,9 +322,9 @@ class App extends Component {
               <span
                 className="tc center fw6 white"
                 style={{ fontSize: '25.5vw' }}>
-                  <span className={intervalReference || editing === 'minutes' ? 'white' : 'c-muted-2'}>
+                  <span className={`timerFont b ${intervalReference || editing === 'minutes' ? 'white' : 'c-muted-2'}`}>
                     {`${timeEnded ? '-' : ''}${stringifyIntWithTwoDigits(minutes)}`}
-                  </span>:<span className={intervalReference || editing === 'seconds' ? 'white' : 'c-muted-2'}>
+                  </span>:<span className={`timerFont b ${intervalReference || editing === 'seconds' ? 'white' : 'c-muted-2'}`}>
                     {stringifyIntWithTwoDigits(seconds)}
                   </span>
                 </span>

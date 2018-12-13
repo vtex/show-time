@@ -1,3 +1,8 @@
+.timerFont{
+  font-family: 'B612 Mono', monospace;
+  font-weight: 700;
+}
+
 .fera{
   position: absolute;
   right: 5%;
