@@ -1,7 +1,7 @@
 {
   "vendor": "lojaguigs",
   "name": "show-time",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "builders": {
     "pages": "0.x",
     "react": "2.x"
