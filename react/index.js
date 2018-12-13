@@ -3,6 +3,7 @@ import { Helmet } from 'render'
 import { version } from '../manifest.json'
 import './global.css'
 const SERIOUS_BLACK = '#142032'
+const TOTAL_RENDERED_FERAS = 50
 
 const stringifyIntWithTwoDigits = (int) => {
   return ('0' + int).slice(-2)
@@ -19,7 +20,7 @@ class App extends Component {
       initialSeconds: 0,
       editing: 'minutes',
       intervalReference: null,
-      showFera: false,
+      animatedFerasCache: [],
     }
   }
 
@@ -109,9 +110,43 @@ class App extends Component {
   }
 
   handleFeraParade = () => {
-    this.setState({ showFera: true }, () => setTimeout(() => {
-      this.setState({ showFera: false })
-    }, 2000))
+    const { animatedFerasCache } = this.state
+    // animate random fera and cache animated index for 2 seconds (animation time)
+    const random = this.getRandomInt(0, TOTAL_RENDERED_FERAS - 1)
+    if (!animatedFerasCache.includes(random)) {
+
+      const element = document.getElementById(`fera-${random}`)
+      element.className = element.className + ' animateFera'
+
+      const newCache = animatedFerasCache.push(random)
+      this.setState({ animatedFerasCache: newCache }, () => {
+        setTimeout(() => {
+          element.className = element.className.replace(' animateFera', '')
+          const newCache = animatedFerasCache.filter(value => value === random)
+          this.setState({ animatedFerasCache: newCache })
+        }, 2000)
+      })
+    }
+  }
+
+  getRandomInt = (from, to) => {
+    const min = Math.ceil(from)
+    const max = Math.floor(to)
+    return Math.floor(Math.random() * (max - min)) + min
+  }
+
+  renderFerasInHats = () => {
+    return new Array(TOTAL_RENDERED_FERAS).fill(null).map((_null, i) => (
+      <img
+        key={`fera-${i}`}
+        id={`fera-${i}`}
+        src={require(`./assets/fera-hat-${
+          i % 2 === 0
+          ? 0 // if i is even render no-hat-fera
+          : this.getRandomInt(0, 10)
+        }.png`)}
+        className="fera" />
+    ))
   }
 
   renderHelpInfo = () => (
@@ -134,7 +169,7 @@ class App extends Component {
   )
 
   render() {
-    const { minutes, seconds, editing, intervalReference, showFera } = this.state
+    const { minutes, seconds, editing, intervalReference } = this.state
 
     return (
       <Fragment>
@@ -156,8 +191,7 @@ class App extends Component {
             </div>
           </div>
           {intervalReference ? null : this.renderHelpInfo()}
-          <img src={require(`./assets/fera-hat-${'0'}.png`)}
-            className={`fera ${showFera ? 'animateIn' : ''}`} />
+          {this.renderFerasInHats()}
         </div>
       </Fragment>
     )

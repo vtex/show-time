@@ -1,6 +1,6 @@
 .fera{
   position: absolute;
-  left: 85%;
+  right: 20%;
   bottom: -40%;
   z-index: 999;
   height: 30%; /* resizing img */
@@ -10,12 +10,12 @@
   animation: flash 1s linear infinite; 
 }
 
-.animateIn{
+.animateFera{
   animation: 2s left forwards ease;
 }
 
 @keyframes left {
-    0% {left: 85%; bottom: -40%;}
-    25% {left: 85%; bottom: 0%;}
-  100%{left: -30%; bottom: 0%;}
+    0% {right: 20%; bottom: -40%;}
+    25% {right: 20%; bottom: 0%;}
+  100%{right: 130%; bottom: 0%;}
 }
