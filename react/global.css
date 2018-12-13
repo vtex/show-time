@@ -16,3 +16,26 @@
     35% {right: 5%; bottom: 0%;}
   100%{right: 100%; bottom: 0%;}
 }
+
+.helperInfo{
+  position: absolute;
+  left: -20%;
+  bottom: 5%;
+  z-index: 999;
+}
+
+.animateHelper{
+  animation: 25s right forwards ease;
+}
+
+@keyframes right {
+  0% {left: -20%;}
+  5% {left: 5%;}
+  95% {left: 5%;}
+100%{left: -20%;}
+}
+
+@keyframes animatePinkBg {
+  0% {bottom: 0;}
+100%{bottom: -100%;}
+}

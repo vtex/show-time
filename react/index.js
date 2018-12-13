@@ -4,6 +4,8 @@ import { Spinner } from 'vtex.styleguide'
 import { version } from '../manifest.json'
 import './global.css'
 const SERIOUS_BLACK = '#142032'
+const REBEL_PINK = '#F71963'
+const YOUNG_BLUE = '#00BBD4'
 const PERCENTAGE_OF_HATLESS_FERA = 82
 const TOTAL_RENDERED_FERAS = 100
 const TOTAL_IMAGES_IN_ASSETS = 11
@@ -42,7 +44,6 @@ class App extends Component {
       editing: 'minutes',
       intervalReference: null,
       timeEnded: false,
-      firstTimeZero: true,
       showHelperInfo: false,
       loading: true,
     }
@@ -68,6 +69,8 @@ class App extends Component {
           this.resetTimer()
         } else if (key === 'v' || key === 'V') {
           this.animateRandomFera()
+        } else if (key === 'h' || key === 'H') {
+          this.handleShowHelperInfo()
         } else {
           console.log('pressed unmapped key: ', key)
         }
@@ -78,6 +81,22 @@ class App extends Component {
   componentWillUnmount() {
     const { intervalReference } = this.state
     clearInterval(intervalReference)
+  }
+
+  handleShowHelperInfo = () => {
+    const { showHelperInfo } = this.state
+    if (!showHelperInfo) {
+      this.setState(previousState => {
+        return {
+          ...previousState,
+          showHelperInfo: true,
+        }
+      }, () => {
+        setTimeout(() => {
+          this.setState({ showHelperInfo: false })
+        }, 25000)
+      })
+    }
   }
 
   toggleEdit = (editing) => {
@@ -114,39 +133,51 @@ class App extends Component {
     const { intervalReference } = this.state
     if (!intervalReference) {
       const intervalReference = setInterval(() => {
-        const { seconds } = this.state
-        if (seconds === 0) {
-          this.setState(previousState => {
-            const { minutes, intervalReference, timeEnded } = previousState
-            return {
-              ...previousState,
-              seconds: 59,
-              minutes: minutes - 1,
-              timeEnded: !!intervalReference && minutes === 0,
-              firstTimeZero: !!intervalReference && minutes === 0 && !timeEnded,
-            }
-          })
+        const { seconds, timeEnded } = this.state
+        if (timeEnded) {
+          if (seconds === 59) {
+            this.setState(previousState => {
+              return {
+                ...previousState,
+                seconds: 0,
+                minutes: previousState.minutes + 1,
+              }
+            })
+          } else {
+            this.setState(previousState => {
+              return {
+                ...previousState,
+                seconds: previousState.seconds + 1,
+              }
+            })
+          }
         } else {
-          this.setState(previousState => {
-            const { minute, firstTimeZero } = previousState
-            if (minute === 0 && seconds === 1 && firstTimeZero) {
+          if (seconds === 0) {
+            this.setState(previousState => {
+              const { minutes, intervalReference } = previousState
+              const shouldTimeEnded = !!intervalReference && minutes === 0
+              return {
+                ...previousState,
+                seconds: shouldTimeEnded ? 0 : 59,
+                minutes: shouldTimeEnded ? 0 : minutes - 1,
+                timeEnded: shouldTimeEnded,
+              }
+            })
+          } else {
+            this.setState(previousState => {
               return {
                 ...previousState,
                 seconds: previousState.seconds - 1,
-                minutes: 0,
-                timeEnded: true,
-                firstTimeZero: false,
               }
-            } else {
-              return {
-                ...previousState,
-                seconds: previousState.seconds - 1,
-              }
-            }
-          })
+            })
+          }
         }
       }, 1000)
-      this.setState({ intervalReference })
+      this.setState({
+        intervalReference,
+        initialMinutes: this.state.minutes,
+        initialSeconds: this.state.seconds,
+      })
     }
   }
 
@@ -161,6 +192,7 @@ class App extends Component {
     clearInterval(intervalReference)
     this.setState({
       intervalReference: null,
+      timeEnded: false,
       minutes: initialMinutes,
       seconds: initialSeconds,
     })
@@ -175,17 +207,21 @@ class App extends Component {
     }, 2000)
   }
 
-  renderHelpInfo = () => this.state.showHelperInfo && (
-    <div className="absolute bottom-1 left-1 tl h-20 dn dib-ns">
+  renderHelpInfo = () => (
+    <div className={`absolute bottom-1 left-1 tl h-20 dn dib-ns ${
+      this.state.showHelperInfo
+        ? 'animateHelper'
+        : ''
+      } helperInfo`}>
       <ul className="white f5 list">
         <li>
-          <p><span className="b">arrow keys</span> to set timer</p>
+          <p><span className="b">Arrow Keys</span> to set timer</p>
         </li>
         <li>
-          <p><span className="b">space/enter</span> to start or stop</p>
+          <p><span className="b">Space/Enter</span> to start or stop</p>
         </li>
         <li>
-          <p><span className="b">r</span> to reset</p>
+          <p><span className="b">R</span> to reset</p>
         </li>
         <li>
           <p>v{version}</p>
@@ -195,7 +231,7 @@ class App extends Component {
   )
 
   render() {
-    const { minutes, seconds, editing, intervalReference, timeEnded, firstTimeZero, loading } = this.state
+    const { minutes, initialMinutes, seconds, initialSeconds, editing, intervalReference, timeEnded, loading } = this.state
     if (loading) {
       return <div className="flex flex-column overflow-hidden">
         <div className="center mv10" style={{ transform: 'scale(5)' }}>
@@ -207,11 +243,37 @@ class App extends Component {
       </div>
     }
 
-    if (minutes <= 0 && !firstTimeZero) {
-      if (timeEnded && Math.random() >= 0.420) {
-        this.animateRandomFera()
+    if (timeEnded) {
+      const rand = getRandomInt(0,20)
+      const randMs = (Math.random() * 100) + 10
+      if (minutes === 0 && rand % 20 === 0) {
+        this.animateRandomFera(true)
+      } else if (minutes === 1 && rand % 10 === 0) {
+        setTimeout(() => this.animateRandomFera(true), randMs + 250)
+        setTimeout(() => this.animateRandomFera(true), randMs + 500)
+      } else if (minutes === 2 && rand % 5 === 0) {
+        setTimeout(() => this.animateRandomFera(true), randMs + 13)
+        setTimeout(() => this.animateRandomFera(), randMs + 270)
+        setTimeout(() => this.animateRandomFera(), randMs + 500)
+      } else if (minutes === 3 && rand % 4 === 0) {
+        setTimeout(() => this.animateRandomFera(), randMs + 13)
+        setTimeout(() => this.animateRandomFera(), randMs + 500)
+        setTimeout(() => this.animateRandomFera(), randMs + 750)
+      } else if (minutes === 4 && rand % 2 === 0) {
+        setTimeout(() => this.animateRandomFera(), randMs + 10)
+        setTimeout(() => this.animateRandomFera(), randMs + 500)
+        setTimeout(() => this.animateRandomFera(), randMs + 750)
+      } else if (minutes > 4) {
+        setTimeout(() => this.animateRandomFera(), randMs + 10)
+        setTimeout(() => this.animateRandomFera(), randMs + 250)
+        setTimeout(() => this.animateRandomFera(), randMs + 500)
+        setTimeout(() => this.animateRandomFera(), randMs + 750)
       }
     }
+
+    const totalTime = (initialMinutes * 60) + initialSeconds
+    const remainingTime = (minutes * 60) + seconds
+    const isRunning = !!intervalReference
 
     return (
       <Fragment>
@@ -219,13 +281,23 @@ class App extends Component {
           <title>Timer Demofriday</title>
         </Helmet>
         <div className="flex relative overflow-hidden vh-100 w-100" style={{ backgroundColor: SERIOUS_BLACK }}>
+          <div className="flex absolute h-100 w-100" style={{
+              backgroundColor: timeEnded ? YOUNG_BLUE : REBEL_PINK,
+              top:0,
+              left:0,
+              right:0,
+              left:0,
+              transform: isRunning ? `scale(1, ${remainingTime/totalTime})` : 'scale(1,0)',
+              transformOrigin: timeEnded? '50% 0%' : '50% 100%',
+              transition: 'transform 1s, background 1s',
+            }} />
           <div className="absolute w-100 vh-100">
             <div className="flex items-center h-100">
               <span
                 className="tc center fw6 white"
                 style={{ fontSize: '25.5vw' }}>
                   <span className={intervalReference || editing === 'minutes' ? 'white' : 'c-muted-2'}>
-                    {minutes === 0 && firstTimeZero ? '-00' : stringifyIntWithTwoDigits(minutes)}
+                    {`${timeEnded ? '-' : ''}${stringifyIntWithTwoDigits(minutes)}`}
                   </span>:<span className={intervalReference || editing === 'seconds' ? 'white' : 'c-muted-2'}>
                     {stringifyIntWithTwoDigits(seconds)}
                   </span>
