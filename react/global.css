@@ -19,7 +19,7 @@
 
 .helperInfo{
   position: absolute;
-  left: -20%;
+  left: -30%;
   bottom: 5%;
   z-index: 999;
 }
@@ -29,10 +29,10 @@
 }
 
 @keyframes right {
-  0% {left: -20%;}
+  0% {left: -30%;}
   5% {left: 5%;}
   95% {left: 5%;}
-100%{left: -20%;}
+100%{left: -30%;}
 }
 
 @keyframes animatePinkBg {

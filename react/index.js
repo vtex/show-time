@@ -51,7 +51,6 @@ class App extends Component {
 
   componentDidMount() {
     this.setState({ loading: false }, () => {
-      setTimeout(() => this.setState({ showHelperInfo: true }), 420000)
       document && document.addEventListener('keyup', (event) => {
         const { key } = event
         const { intervalReference, editing } = this.state
@@ -71,8 +70,22 @@ class App extends Component {
           this.animateRandomFera()
         } else if (key === 'h' || key === 'H') {
           this.handleShowHelperInfo()
-        } else {
-          console.log('pressed unmapped key: ', key)
+        } else if (key === '1') {
+          this.setDemoPreset(5)
+        } else if (key === '2') {
+          this.setDemoPreset(10)
+        } else if (key === '3') {
+          this.setDemoPreset(15)
+        } else if (key === '4') {
+          this.setDemoPreset(20)
+        } else if (key === '0') {
+          this.setState({
+            minutes: 5,
+            initialMinutes: 5,
+            seconds: 0,
+            initialSeconds: 0,
+            timeEnded: true,
+          })
         }
       })
     })
@@ -96,6 +109,8 @@ class App extends Component {
           this.setState({ showHelperInfo: false })
         }, 25000)
       })
+    } else {
+      this.setState({ showHelperInfo: false })
     }
   }
 
@@ -127,6 +142,16 @@ class App extends Component {
     } else if (seconds === 59 && !shouldIncrement) {
       this.setState({ seconds: seconds - 1 })
     }
+  }
+
+  setDemoPreset = (m) => {
+    this.setState({
+      minutes: m,
+      initialMinutes: m,
+      seconds: 0,
+      initialSeconds: 0,
+      timeEnded: false,
+    })
   }
 
   startTimer = () => {
