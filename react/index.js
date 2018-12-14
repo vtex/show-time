@@ -292,33 +292,34 @@ class App extends Component {
       </div>
     }
 
-    if (timeEnded) {
-      const rand = getRandomInt(0,20)
-      const randMs = (Math.random() * 100) + 10
-      if (minutes === 0 && rand % 20 === 0) {
-        this.animateRandomFera(true)
-      } else if (minutes === 1 && rand % 10 === 0) {
-        setTimeout(() => this.animateRandomFera(true), randMs + 250)
-        setTimeout(() => this.animateRandomFera(true), randMs + 500)
-      } else if (minutes === 2 && rand % 5 === 0) {
-        setTimeout(() => this.animateRandomFera(true), randMs + 13)
-        setTimeout(() => this.animateRandomFera(), randMs + 270)
-        setTimeout(() => this.animateRandomFera(), randMs + 500)
-      } else if (minutes === 3 && rand % 4 === 0) {
-        setTimeout(() => this.animateRandomFera(), randMs + 13)
-        setTimeout(() => this.animateRandomFera(), randMs + 500)
-        setTimeout(() => this.animateRandomFera(), randMs + 750)
-      } else if (minutes === 4 && rand % 2 === 0) {
-        setTimeout(() => this.animateRandomFera(), randMs + 10)
-        setTimeout(() => this.animateRandomFera(), randMs + 500)
-        setTimeout(() => this.animateRandomFera(), randMs + 750)
-      } else if (minutes > 4) {
-        setTimeout(() => this.animateRandomFera(), randMs + 10)
-        setTimeout(() => this.animateRandomFera(), randMs + 250)
-        setTimeout(() => this.animateRandomFera(), randMs + 500)
-        setTimeout(() => this.animateRandomFera(), randMs + 750)
-      }
-    }
+    // RANDOM ANIMATE FERAS WHEN TIME IS UP
+    // if (timeEnded) {
+    //   const rand = getRandomInt(0,20)
+    //   const randMs = (Math.random() * 100) + 10
+    //   if (minutes === 0 && rand % 20 === 0) {
+    //     this.animateRandomFera(true)
+    //   } else if (minutes === 1 && rand % 10 === 0) {
+    //     setTimeout(() => this.animateRandomFera(true), randMs + 250)
+    //     setTimeout(() => this.animateRandomFera(true), randMs + 500)
+    //   } else if (minutes === 2 && rand % 5 === 0) {
+    //     setTimeout(() => this.animateRandomFera(true), randMs + 13)
+    //     setTimeout(() => this.animateRandomFera(), randMs + 270)
+    //     setTimeout(() => this.animateRandomFera(), randMs + 500)
+    //   } else if (minutes === 3 && rand % 4 === 0) {
+    //     setTimeout(() => this.animateRandomFera(), randMs + 13)
+    //     setTimeout(() => this.animateRandomFera(), randMs + 500)
+    //     setTimeout(() => this.animateRandomFera(), randMs + 750)
+    //   } else if (minutes === 4 && rand % 2 === 0) {
+    //     setTimeout(() => this.animateRandomFera(), randMs + 10)
+    //     setTimeout(() => this.animateRandomFera(), randMs + 500)
+    //     setTimeout(() => this.animateRandomFera(), randMs + 750)
+    //   } else if (minutes > 4) {
+    //     setTimeout(() => this.animateRandomFera(), randMs + 10)
+    //     setTimeout(() => this.animateRandomFera(), randMs + 250)
+    //     setTimeout(() => this.animateRandomFera(), randMs + 500)
+    //     setTimeout(() => this.animateRandomFera(), randMs + 750)
+    //   }
+    // }
 
     const totalTime = (initialMinutes * 60) + initialSeconds
     const remainingTime = (minutes * 60) + seconds
@@ -348,17 +349,17 @@ class App extends Component {
                 style={{
                   fontSize: '25.5vw',
                   color: 'white',
-                  animation: timeEnded ? 'pink-blink 1s steps(5, start) infinite' : null,
+                  animation: timeEnded && isRunning ? 'pink-blink 1s steps(5, start) infinite' : null,
                 }}>
-                  <span className={`timerFont b ${intervalReference || editing === 'minutes' ? '' : 'c-muted-2'}`}>
+                  <span className={`timerFont b ${isRunning || editing === 'minutes' ? '' : 'c-muted-2'}`}>
                     {`${timeEnded ? '-' : ''}${stringifyIntWithTwoDigits(minutes)}`}
-                  </span>:<span className={`timerFont b ${intervalReference || editing === 'seconds' ? '' : 'c-muted-2'}`}>
+                  </span>:<span className={`timerFont b ${isRunning || editing === 'seconds' ? '' : 'c-muted-2'}`}>
                     {stringifyIntWithTwoDigits(seconds)}
                   </span>
                 </span>
             </div>
           </div>
-          {intervalReference ? null : this.renderHelpInfo()}
+          {isRunning ? null : this.renderHelpInfo()}
           {FERAS_IN_HATS}
           {MARIANOS_IN_HATS}
         </div>
