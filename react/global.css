@@ -1,6 +1,17 @@
 .timerFont{
-  font-family: 'B612 Mono', monospace;
+  /* font-family: 'B612 Mono', monospace;
+  font-weight: 700; */
+  font-family: monospace;
+  font-size: 25.5vw;
+  font-style: normal;
+  font-variant: normal;
   font-weight: 700;
+}
+
+@keyframes pink-blink {
+    0% {color: white;}
+    50% {color: #F71963;}
+  100%{color: white;}
 }
 
 .fera{

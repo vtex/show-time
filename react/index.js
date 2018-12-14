@@ -308,23 +308,27 @@ class App extends Component {
         </Helmet>
         <div className="flex relative overflow-hidden vh-100 w-100" style={{ backgroundColor: SERIOUS_BLACK }}>
           <div className="flex absolute h-100 w-100" style={{
-              backgroundColor: timeEnded ? YOUNG_BLUE : REBEL_PINK,
+              backgroundColor: REBEL_PINK,
               top:0,
               left:0,
               right:0,
               left:0,
-              transform: isRunning ? `scale(1, ${remainingTime/totalTime})` : 'scale(1,0)',
-              transformOrigin: timeEnded? '50% 0%' : '50% 100%',
+              transform: isRunning && !timeEnded ? `scale(1, ${remainingTime/totalTime})` : 'scale(1,0)',
+              transformOrigin: '50% 100%',
               transition: 'transform 1s, background 1s',
             }} />
           <div className="absolute w-100 vh-100">
             <div className="flex items-center h-100">
               <span
                 className="tc center fw6 white"
-                style={{ fontSize: '25.5vw' }}>
-                  <span className={`timerFont b ${intervalReference || editing === 'minutes' ? 'white' : 'c-muted-2'}`}>
+                style={{
+                  fontSize: '25.5vw',
+                  color: 'white',
+                  animation: timeEnded ? 'pink-blink 1s steps(5, start) infinite' : null,
+                }}>
+                  <span className={`timerFont b ${intervalReference || editing === 'minutes' ? '' : 'c-muted-2'}`}>
                     {`${timeEnded ? '-' : ''}${stringifyIntWithTwoDigits(minutes)}`}
-                  </span>:<span className={`timerFont b ${intervalReference || editing === 'seconds' ? 'white' : 'c-muted-2'}`}>
+                  </span>:<span className={`timerFont b ${intervalReference || editing === 'seconds' ? '' : 'c-muted-2'}`}>
                     {stringifyIntWithTwoDigits(seconds)}
                   </span>
                 </span>
