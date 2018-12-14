@@ -7,7 +7,7 @@ const SERIOUS_BLACK = '#142032'
 const REBEL_PINK = '#F71963'
 const YOUNG_BLUE = '#00BBD4'
 const PERCENTAGE_OF_HATLESS_FERA = 82
-const TOTAL_RENDERED_FERAS = 100
+const TOTAL_RENDERED_FERAS = 100 // pls don't change this one!
 const TOTAL_IMAGES_IN_ASSETS = 11
 
 const stringifyIntWithTwoDigits = (int) => {
@@ -20,15 +20,26 @@ const getRandomInt = (from, to) => {
   return Math.floor(Math.random() * (max - min)) + min
 }
 
-const IMAGES = new Array(TOTAL_IMAGES_IN_ASSETS).fill(null).map((_null, i) => require(`./assets/fera-hat-${i}.png`))
-const FERAS_IN_HATS = new Array(TOTAL_RENDERED_FERAS).fill(null).map((_null, i) => {
-  const hatIndex = (Math.random() <= PERCENTAGE_OF_HATLESS_FERA / 100) ? 0 : getRandomInt(0, 10)
+const FERA_IMAGES = new Array(TOTAL_IMAGES_IN_ASSETS).fill(null).map((_null, i) => require(`./assets/fera-hat-${i}.png`))
+const FERAS_IN_HATS = new Array(Math.floor(TOTAL_RENDERED_FERAS / 2)).fill(null).map((_null, i) => {
+  const hatIndex = (Math.random() <= PERCENTAGE_OF_HATLESS_FERA / 100) ? Math.random() >= 0.5 ? 0 : 50 : getRandomInt(0, 10)
   return (
     <img
       key={`fera-${i}`}
       id={`fera-${i}`}
-      src={IMAGES[hatIndex]}
-      className="fera" />
+      src={FERA_IMAGES[hatIndex]}
+      className={`fera ${hatIndex === 0 ? 'hatless' : ''}`} />
+  )
+})
+const MARIANO_IMAGES = new Array(TOTAL_IMAGES_IN_ASSETS).fill(null).map((_null, i) => require(`./assets/mari-hat-${i}.png`))
+const MARIANOS_IN_HATS = new Array(Math.floor(TOTAL_RENDERED_FERAS / 2)).fill(null).map((_null, i) => {
+  const hatIndex = (Math.random() <= PERCENTAGE_OF_HATLESS_FERA / 100) ? Math.random() >= 0.5 ? 0 : 50 : getRandomInt(0, 10)
+  return (
+    <img
+      key={`fera-${i + Math.floor(TOTAL_RENDERED_FERAS / 2)}`}
+      id={`fera-${i + Math.floor(TOTAL_RENDERED_FERAS / 2)}`}
+      src={MARIANO_IMAGES[hatIndex]}
+      className={`fera ${hatIndex === 0 ? 'hatless' : ''}`} />
   )
 })
 
@@ -67,6 +78,8 @@ class App extends Component {
         } else if (key === 'r' || key === 'R') {
           this.resetTimer()
         } else if (key === 'v' || key === 'V') {
+          this.animateRandomFera(true)
+        } else if (key === 'z' || key === 'Z') {
           this.animateRandomFera()
         } else if (key === 'h' || key === 'H') {
           this.handleShowHelperInfo()
@@ -224,8 +237,14 @@ class App extends Component {
   }
 
   animateRandomFera = (forceNoHat = false) => {
-    const random = forceNoHat ? 0 : getRandomInt(0, TOTAL_RENDERED_FERAS - 1)
-    const element = document.getElementById(`fera-${random}`)
+    let element
+    if (forceNoHat) {
+      const hatlessCount = document.getElementsByClassName('hatless').length
+      element = document.getElementsByClassName('hatless')[getRandomInt(0, hatlessCount - 1)]
+    } else {
+      const random = getRandomInt(0, TOTAL_RENDERED_FERAS - 1)
+      element = document.getElementById(`fera-${random}`)
+    }
     element.className = element.className + ' animateFera'
     setTimeout(() => {
       element.className = element.className.replace(' animateFera', '')
@@ -336,6 +355,7 @@ class App extends Component {
           </div>
           {intervalReference ? null : this.renderHelpInfo()}
           {FERAS_IN_HATS}
+          {MARIANOS_IN_HATS}
         </div>
       </Fragment>
     )
