@@ -9,6 +9,7 @@ const YOUNG_BLUE = '#00BBD4'
 const PERCENTAGE_OF_HATLESS_FERA = 82
 const TOTAL_RENDERED_FERAS = 100 // pls don't change this one!
 const TOTAL_IMAGES_IN_ASSETS = 11
+let BEZAO_COUNT = 0
 
 const stringifyIntWithTwoDigits = (int) => {
   return ('0' + int).slice(-2)
@@ -83,6 +84,8 @@ class App extends Component {
           this.animateRandomFera()
         } else if (key === 'h' || key === 'H') {
           this.handleShowHelperInfo()
+        } else if (key === 'B') {
+          alert(`Bezão count scale in this session: ${BEZAO_COUNT} seconds`)
         } else if (key === '1') {
           this.setDemoPreset(5)
         } else if (key === '2') {
@@ -183,6 +186,7 @@ class App extends Component {
             })
           } else {
             this.setState(previousState => {
+              BEZAO_COUNT = BEZAO_COUNT + 1
               return {
                 ...previousState,
                 seconds: previousState.seconds + 1,
@@ -203,6 +207,7 @@ class App extends Component {
             })
           } else {
             this.setState(previousState => {
+              BEZAO_COUNT = BEZAO_COUNT + 1
               return {
                 ...previousState,
                 seconds: previousState.seconds - 1,
