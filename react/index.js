@@ -345,15 +345,31 @@ class App extends Component {
           <div className="absolute w-100 vh-100">
             <div className="flex items-center h-100">
               <span
-                className="tc center fw6 white"
+                className="tc center fw5 white absolute"
                 style={{
+                  height: '1em',
                   fontSize: '25.5vw',
                   color: 'white',
+                  left: '50%',
                   animation: timeEnded && isRunning ? 'pink-blink 1s steps(5, start) infinite' : null,
                 }}>
-                  <span className={`timerFont b ${isRunning || editing === 'minutes' ? '' : 'c-muted-2'}`}>
+                <span className={`absolute ${isRunning || editing === 'minutes' ? '' : 'c-muted-2'}`}
+                  style={{
+                    right: '0.1em',
+                  }}
+                >
                     {`${timeEnded ? '-' : ''}${stringifyIntWithTwoDigits(minutes)}`}
-                  </span>:<span className={`timerFont b ${isRunning || editing === 'seconds' ? '' : 'c-muted-2'}`}>
+                    </span>
+                    <span className="absolute" style={{
+                      transform:'translate(-50%, 0)',
+                    }}>
+                      :
+                    </span>
+                    <span className={`absolute ${isRunning || editing === 'seconds' ? '' : 'c-muted-2'}`}
+                      style={{
+                        left: '0.1em',
+                      }}
+                    >
                     {stringifyIntWithTwoDigits(seconds)}
                   </span>
                 </span>
