@@ -331,7 +331,7 @@ class App extends Component {
           <title>Timer Demofriday</title>
           <link href="https://fonts.googleapis.com/css?family=B612+Mono" rel="stylesheet"></link>
         </Helmet>
-        <div className="flex relative overflow-hidden vh-100 w-100" style={{ backgroundColor: SERIOUS_BLACK }}>
+        <div className="flex relative overflow-hidden vh-100 w-100 force-full-width" style={{ backgroundColor: SERIOUS_BLACK }}>
           <div className="flex absolute h-100 w-100" style={{
               backgroundColor: REBEL_PINK,
               top:0,
@@ -345,15 +345,32 @@ class App extends Component {
           <div className="absolute w-100 vh-100">
             <div className="flex items-center h-100">
               <span
-                className="tc center fw6 white"
+                className="tc center fw6 white absolute"
                 style={{
+                  height: '1em',
                   fontSize: '25.5vw',
                   color: 'white',
+                  left: '50%',
+                  marginTop: '-0.1em',
                   animation: timeEnded && isRunning ? 'pink-blink 1s steps(5, start) infinite' : null,
                 }}>
-                  <span className={`timerFont b ${isRunning || editing === 'minutes' ? '' : 'c-muted-2'}`}>
+                <span className={`absolute ${isRunning || editing === 'minutes' ? '' : 'c-muted-2'}`}
+                  style={{
+                    right: '0.15em',
+                  }}
+                >
                     {`${timeEnded ? '-' : ''}${stringifyIntWithTwoDigits(minutes)}`}
-                  </span>:<span className={`timerFont b ${isRunning || editing === 'seconds' ? '' : 'c-muted-2'}`}>
+                    </span>
+                    <span className="absolute" style={{
+                      transform:'translate(-50%, 0)',
+                    }}>
+                      :
+                    </span>
+                    <span className={`absolute ${isRunning || editing === 'seconds' ? '' : 'c-muted-2'}`}
+                      style={{
+                        left: '0.15em',
+                      }}
+                    >
                     {stringifyIntWithTwoDigits(seconds)}
                   </span>
                 </span>
