@@ -3,7 +3,7 @@
 
 ### Commands cheatsheet
 
----------------Numeros no teclado---------------
+---------------Numbers on keyboard---------------
 
  1 - set 5 min
 
@@ -15,7 +15,7 @@
 
  0 - set -5 min
 
-----------------comandos do timer----------------
+------------------timer commands------------------
 
 Arrows - Increase/Decrease time and change selection from seconds to minutes
 
