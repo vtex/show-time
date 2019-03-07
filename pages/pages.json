@@ -1,11 +1,11 @@
 {
   "pages": {
-    "store": {
+    "timer": {
       "path": "/timer"
     }
   },
   "extensions": {
-    "store": {
+    "timer": {
       "component": "index"
     }
   }
