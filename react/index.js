@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Helmet } from 'render'
-import { Spinner } from 'vtex.styleguide' 
+import { Spinner } from 'vtex.styleguide'
 import { version } from '../manifest.json'
 import './global.css'
 const SERIOUS_BLACK = '#142032'
@@ -45,6 +45,10 @@ const MARIANOS_IN_HATS = new Array(Math.floor(TOTAL_RENDERED_FERAS / 2)).fill(nu
 })
 
 class App extends Component {
+  static contextTypes = {
+    getSettings: PropTypes.func,
+  }
+
   constructor() {
     super()
 
@@ -61,7 +65,13 @@ class App extends Component {
     }
   }
 
+  getAppSettingsData = () => {
+    return this.context.getSettings('vtexpages.show-time')
+  }
+
   componentDidMount() {
+    const appSettingsData = this.getAppSettingsData()
+    console.log('aaaaa', appSettingsData)
     this.setState({ loading: false }, () => {
       document && document.addEventListener('keyup', (event) => {
         const { key } = event

@@ -11,9 +11,58 @@
   "registries": [
     "smartcheckout"
   ],
-  "settingsSchema": {},
+  "settingsSchema": {
+    "title": "VTEX careers offices",
+    "description": "vtex.io/careers",
+    "type": "object",
+    "properties": {
+      "offices": {
+        "type": "array",
+        "title": "Offices",
+        "items": {
+          "type": "object",
+          "properties": {
+            "lat": {
+              "type": "number",
+              "title": "Latitude",
+              "default": -22.9443504
+            },
+            "long": {
+              "type": "number",
+              "title": "Longitude",
+              "default": -43.1825636
+            },
+            "name": {
+              "type": "string",
+              "title": "Office name (must match city name in Lever)",
+              "default": "Rio de Janeiro"
+            },
+            "label": {
+              "type": "string",
+              "title": "Office display name in map tag",
+              "default": "Rio de Janeiro"
+            },
+            "address": {
+              "type": "string",
+              "title": "Office address to be displayed in map tag",
+              "default": "300 Praia de Botafogo, 2nd Floor, Botafogo, Rio de Janeiro, RJ"
+            }
+          }
+        }
+      }
+    }
+  },
+  "settingsUiSchema": {
+    "offices": {
+      "ui:options": {
+        "addable": true,
+        "removable": true
+      }
+    }
+  },
   "scripts": {},
   "dependencies": {
     "vtex.styleguide": "8.x"
-  }
+  },
+  "$schema": "https://raw.githubusercontent.com/vtex/node-vtex-api/master/gen/manifest.schema"
 }
