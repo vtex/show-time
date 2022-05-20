@@ -8,6 +8,7 @@ const REBEL_PINK = '#F71963'
 const YOUNG_BLUE = '#00BBD4'
 const PERCENTAGE_OF_HATLESS_FERA = 82
 const TOTAL_RENDERED_FERAS = 100 // pls don't change this one!
+const TOTAL_IMENES = 2
 const TOTAL_IMAGES_IN_ASSETS = 11
 let BEZAO_COUNT = 0
 
@@ -21,6 +22,17 @@ const getRandomInt = (from, to) => {
   return Math.floor(Math.random() * (max - min)) + min
 }
 
+const IMENES_IMAGES = new Array(TOTAL_IMENES).fill(null).map((_null, i) => require(`./assets/imenes-${i}.png`))
+const IMENES_RENDERER = new Array(Math.floor(TOTAL_RENDERED_FERAS)).fill(null).map((_null, i) => {
+  const imenesIndex = (Math.random() <= Math.random() >= 0.5 ? 0 : 1)
+  return (
+    <img
+      key={`imenes-${i}`}
+      id={`imenes-${i}`}
+      src={IMENES_IMAGES[imenesIndex]}
+      className={`fera`} />
+  )
+})
 const FERA_IMAGES = new Array(TOTAL_IMAGES_IN_ASSETS).fill(null).map((_null, i) => require(`./assets/fera-hat-${i}.png`))
 const FERAS_IN_HATS = new Array(Math.floor(TOTAL_RENDERED_FERAS / 2)).fill(null).map((_null, i) => {
   const hatIndex = (Math.random() <= PERCENTAGE_OF_HATLESS_FERA / 100) ? Math.random() >= 0.5 ? 0 : 50 : getRandomInt(0, 10)
@@ -78,6 +90,8 @@ class App extends Component {
           editing === 'minutes' ? this.updateMinutes(false) : this.updateSeconds(false)
         } else if (key === 'r' || key === 'R') {
           this.resetTimer()
+        } else if (key === 'i' || key === 'I') {
+          this.imenesVive()
         } else if (key === 'v' || key === 'V') {
           this.animateRandomFera(true)
         } else if (key === 'z' || key === 'Z') {
@@ -256,6 +270,16 @@ class App extends Component {
     }, 2000)
   }
 
+  imenesVive = () => {
+    let element
+    const random = getRandomInt(0, TOTAL_RENDERED_FERAS - 1)
+    element = document.getElementById(`imenes-${random}`)
+    element.className = element.className + ` animateImenesFera`
+    setTimeout(() => {
+      element.className = element.className.replace(` animateImenesFera`, '')
+    }, 4000)
+  }
+
   renderHelpInfo = () => (
     <div className={`absolute bottom-1 left-1 tl h-20 dn dib-ns ${
       this.state.showHelperInfo
@@ -379,6 +403,7 @@ class App extends Component {
           {isRunning ? null : this.renderHelpInfo()}
           {FERAS_IN_HATS}
           {MARIANOS_IN_HATS}
+          {IMENES_RENDERER}
         </div>
       </Fragment>
     )

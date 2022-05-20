@@ -26,6 +26,10 @@
   animation: 2s left forwards ease;
 }
 
+.animateImenesFera{
+  animation: 4s left forwards ease;
+}
+
 @keyframes left {
     0% {right: 5%; bottom: -40%;}
     20% {right: 5%; bottom: 0%;}
