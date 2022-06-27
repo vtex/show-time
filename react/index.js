@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Helmet } from 'render'
-import { Spinner } from 'vtex.styleguide' 
+import { Spinner } from 'vtex.styleguide'
 import { version } from '../manifest.json'
 import './global.css'
 const SERIOUS_BLACK = '#142032'
@@ -27,10 +27,10 @@ const IMENES_RENDERER = new Array(Math.floor(TOTAL_RENDERED_FERAS)).fill(null).m
   const imenesIndex = (Math.random() <= Math.random() >= 0.5 ? 0 : 1)
   return (
     <img
-      key={`imenes-${i}`}
-      id={`imenes-${i}`}
-      src={IMENES_IMAGES[imenesIndex]}
-      className={`fera`} />
+      key={ `imenes-${i}` }
+      id={ `imenes-${i}` }
+      src={ IMENES_IMAGES[imenesIndex] }
+      className={ `fera` } />
   )
 })
 const FERA_IMAGES = new Array(TOTAL_IMAGES_IN_ASSETS).fill(null).map((_null, i) => require(`./assets/fera-hat-${i}.png`))
@@ -38,10 +38,10 @@ const FERAS_IN_HATS = new Array(Math.floor(TOTAL_RENDERED_FERAS / 2)).fill(null)
   const hatIndex = (Math.random() <= PERCENTAGE_OF_HATLESS_FERA / 100) ? Math.random() >= 0.5 ? 0 : 50 : getRandomInt(0, 10)
   return (
     <img
-      key={`fera-${i}`}
-      id={`fera-${i}`}
-      src={FERA_IMAGES[hatIndex]}
-      className={`fera ${hatIndex === 0 ? 'hatless' : ''}`} />
+      key={ `fera-${i}` }
+      id={ `fera-${i}` }
+      src={ FERA_IMAGES[hatIndex] }
+      className={ `fera ${hatIndex === 0 ? 'hatless' : ''}` } />
   )
 })
 const MARIANO_IMAGES = new Array(TOTAL_IMAGES_IN_ASSETS).fill(null).map((_null, i) => require(`./assets/mari-hat-${i}.png`))
@@ -49,10 +49,10 @@ const MARIANOS_IN_HATS = new Array(Math.floor(TOTAL_RENDERED_FERAS / 2)).fill(nu
   const hatIndex = (Math.random() <= PERCENTAGE_OF_HATLESS_FERA / 100) ? Math.random() >= 0.5 ? 0 : 50 : getRandomInt(0, 10)
   return (
     <img
-      key={`fera-${i + Math.floor(TOTAL_RENDERED_FERAS / 2)}`}
-      id={`fera-${i + Math.floor(TOTAL_RENDERED_FERAS / 2)}`}
-      src={MARIANO_IMAGES[hatIndex]}
-      className={`fera ${hatIndex === 0 ? 'hatless' : ''}`} />
+      key={ `fera-${i + Math.floor(TOTAL_RENDERED_FERAS / 2)}` }
+      id={ `fera-${i + Math.floor(TOTAL_RENDERED_FERAS / 2)}` }
+      src={ MARIANO_IMAGES[hatIndex] }
+      className={ `fera ${hatIndex === 0 ? 'hatless' : ''}` } />
   )
 })
 
@@ -87,6 +87,14 @@ class App extends Component {
         } else if (key === 'ArrowUp') {
           editing === 'minutes' ? this.updateMinutes(true) : this.updateSeconds(true)
         } else if (key === 'ArrowDown') {
+          editing === 'minutes' ? this.updateMinutes(false) : this.updateSeconds(false)
+        } else if (key === 'd') {
+          this.toggleEdit('seconds')
+        } else if (key === 'a') {
+          this.toggleEdit('minutes')
+        } else if (key === 'w') {
+          editing === 'minutes' ? this.updateMinutes(true) : this.updateSeconds(true)
+        } else if (key === 's') {
           editing === 'minutes' ? this.updateMinutes(false) : this.updateSeconds(false)
         } else if (key === 'r' || key === 'R') {
           this.resetTimer()
@@ -281,11 +289,10 @@ class App extends Component {
   }
 
   renderHelpInfo = () => (
-    <div className={`absolute bottom-1 left-1 tl h-20 dn dib-ns ${
-      this.state.showHelperInfo
+    <div className={ `absolute bottom-1 left-1 tl h-20 dn dib-ns ${this.state.showHelperInfo
         ? 'animateHelper'
         : ''
-      } helperInfo`}>
+      } helperInfo` }>
       <ul className="white f5 list">
         <li>
           <p><span className="b">Arrow Keys</span> to set timer</p>
@@ -297,7 +304,7 @@ class App extends Component {
           <p><span className="b">R</span> to reset</p>
         </li>
         <li>
-          <p>v{version}</p>
+          <p>v{ version }</p>
         </li>
       </ul>
     </div>
@@ -307,12 +314,12 @@ class App extends Component {
     const { minutes, initialMinutes, seconds, initialSeconds, editing, intervalReference, timeEnded, loading } = this.state
     if (loading) {
       return <div className="flex flex-column overflow-hidden">
-        <div className="center mv10" style={{ transform: 'scale(5)' }}>
+        <div className="center mv10" style={ { transform: 'scale(5)' } }>
           <Spinner />
         </div>
         <p className="w-100 center tc c-muted-1 fw3 f3 fw5-ns f1-ns mh7">
-            Fetching data from outside the orbit...
-          </p>
+          Fetching data from outside the orbit...
+        </p>
       </div>
     }
 
@@ -355,55 +362,55 @@ class App extends Component {
           <title>Timer Demofriday</title>
           <link href="https://fonts.googleapis.com/css?family=B612+Mono" rel="stylesheet"></link>
         </Helmet>
-        <div className="flex relative overflow-hidden vh-100 w-100 force-full-width" style={{ backgroundColor: SERIOUS_BLACK }}>
-          <div className="flex absolute h-100 w-100" style={{
-              backgroundColor: REBEL_PINK,
-              top:0,
-              left:0,
-              right:0,
-              left:0,
-              transform: isRunning && !timeEnded ? `scale(1, ${remainingTime/totalTime})` : 'scale(1,0)',
-              transformOrigin: '50% 100%',
-              transition: 'transform 1s, background 1s',
-            }} />
+        <div className="flex relative overflow-hidden vh-100 w-100 force-full-width" style={ { backgroundColor: SERIOUS_BLACK } }>
+          <div className="flex absolute h-100 w-100" style={ {
+            backgroundColor: REBEL_PINK,
+            top: 0,
+            left: 0,
+            right: 0,
+            left: 0,
+            transform: isRunning && !timeEnded ? `scale(1, ${remainingTime / totalTime})` : 'scale(1,0)',
+            transformOrigin: '50% 100%',
+            transition: 'transform 1s, background 1s',
+          } } />
           <div className="absolute w-100 vh-100">
             <div className="flex items-center h-100">
               <span
                 className="tc center fw6 white absolute"
-                style={{
+                style={ {
                   height: '1em',
                   fontSize: '25.5vw',
                   color: 'white',
                   left: '50%',
                   marginTop: '-0.1em',
                   animation: timeEnded && isRunning ? 'pink-blink 1s steps(5, start) infinite' : null,
-                }}>
-                <span className={`absolute ${isRunning || editing === 'minutes' ? '' : 'c-muted-2'}`}
-                  style={{
+                } }>
+                <span className={ `absolute ${isRunning || editing === 'minutes' ? '' : 'c-muted-2'}` }
+                  style={ {
                     right: '0.15em',
-                  }}
+                  } }
                 >
-                    {`${timeEnded ? '-' : ''}${stringifyIntWithTwoDigits(minutes)}`}
-                    </span>
-                    <span className="absolute" style={{
-                      transform:'translate(-50%, 0)',
-                    }}>
-                      :
-                    </span>
-                    <span className={`absolute ${isRunning || editing === 'seconds' ? '' : 'c-muted-2'}`}
-                      style={{
-                        left: '0.15em',
-                      }}
-                    >
-                    {stringifyIntWithTwoDigits(seconds)}
-                  </span>
+                  { `${timeEnded ? '-' : ''}${stringifyIntWithTwoDigits(minutes)}` }
                 </span>
+                <span className="absolute" style={ {
+                  transform: 'translate(-50%, 0)',
+                } }>
+                  :
+                </span>
+                <span className={ `absolute ${isRunning || editing === 'seconds' ? '' : 'c-muted-2'}` }
+                  style={ {
+                    left: '0.15em',
+                  } }
+                >
+                  { stringifyIntWithTwoDigits(seconds) }
+                </span>
+              </span>
             </div>
           </div>
-          {isRunning ? null : this.renderHelpInfo()}
-          {FERAS_IN_HATS}
-          {MARIANOS_IN_HATS}
-          {IMENES_RENDERER}
+          { isRunning ? null : this.renderHelpInfo() }
+          { FERAS_IN_HATS }
+          { MARIANOS_IN_HATS }
+          { IMENES_RENDERER }
         </div>
       </Fragment>
     )
