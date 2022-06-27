@@ -17,7 +17,7 @@
 
 ------------------timer commands------------------
 
-Arrows - Increase/Decrease time and change selection from seconds to minutes
+Arrows OR wasd - Increase/Decrease time and change selection from seconds to minutes
 
 Space / Enter - Start count!
 
